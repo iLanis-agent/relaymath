@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relay Math - app</title>
+<style>
+  :root { --accent:#1f5f8b; --ink:#1d2a33; --paper:#f2f7fa; --soft:#e0ecf3; }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:Georgia, "Times New Roman", serif; background:var(--paper); color:var(--ink); line-height:1.55; }
+  main { max-width:660px; margin:0 auto; }
+  .boundary { background:#fdeaea; border-left:6px solid #b03030; color:#5c1c1c; border-radius:6px; padding:1rem 1.1rem; }
+  .boundary strong { display:block; margin-bottom:.3rem; }
+  body { padding:2rem 1.2rem; }
+  h1 { font-size:1.8rem; color:var(--accent); }
+  .boundary { margin:1rem 0 1.4rem; }
+  .panel { background:var(--soft); border-left:5px solid var(--accent); border-radius:6px; padding:1rem 1.1rem; margin-bottom:1.1rem; }
+  h2 { font-size:1.1rem; margin-bottom:.6rem; }
+  p.note { font-size:.9rem; margin-bottom:.4rem; }
+  label { display:block; font-size:.9rem; margin:.45rem 0 .1rem; }
+  input { width:100%; padding:.45rem .55rem; font-size:1rem; border:1px solid #bdd2df; border-radius:6px; background:#fff; color:var(--ink); }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+  .legs { display:grid; grid-template-columns:repeat(4, 1fr); gap:.4rem; }
+  .out { margin-top:.7rem; font-size:.98rem; background:#fff; border:1px dashed #bdd2df; border-radius:6px; padding:.6rem .7rem; min-height:2.4rem; }
+  .out.err { border-color:#b03030; color:#8a1f1f; }
+  footer { margin-top:1.8rem; font-size:.85rem; color:#587080; }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Relay Math</h1>
+  <div class="boundary">
+    <strong>Boundary: arithmetic only</strong>
+    This page turns the times and distances you type into paces and totals. It never says what to run or whether you are ready.
+  </div>
+
+  <div class="panel">
+    <h2>The pace truth</h2>
+    <p class="note">Finish time and distance to pace.</p>
+    <label for="p-d">Distance (km)</label>
+    <input id="p-d" type="number" min="0" step="any" value="10">
+    <div class="row">
+      <div><label for="p-m">Minutes</label><input id="p-m" type="number" min="0" step="1" value="52"></div>
+      <div><label for="p-s">Seconds</label><input id="p-s" type="number" min="0" step="1" value="30"></div>
+    </div>
+    <div class="out" id="p-out"></div>
+  </div>
+
+  <div class="panel">
+    <h2>The finish truth</h2>
+    <p class="note">Pace per km and distance to finish time.</p>
+    <label for="f-d">Distance (km)</label>
+    <input id="f-d" type="number" min="0" step="any" value="10">
+    <div class="row">
+      <div><label for="f-m">Pace minutes per km</label><input id="f-m" type="number" min="0" step="1" value="5"></div>
+      <div><label for="f-s">Pace seconds</label><input id="f-s" type="number" min="0" step="1" value="15"></div>
+    </div>
+    <div class="out" id="f-out"></div>
+  </div>
+
+  <div class="panel">
+    <h2>The relay truth</h2>
+    <p class="note">Four legs as m:ss.</p>
+    <div class="legs">
+      <input id="r1" value="12:10" aria-label="leg 1">
+      <input id="r2" value="11:45" aria-label="leg 2">
+      <input id="r3" value="13:02" aria-label="leg 3">
+      <input id="r4" value="12:30" aria-label="leg 4">
+    </div>
+    <div class="out" id="r-out"></div>
+  </div>
+
+  <footer>Relay Math is exact arithmetic in whole seconds over the numbers you enter. <a href="index.html">Why it exists</a>.</footer>
+</main>
+<script src="engine.js"></script>
+<script>
+  const num = (id) => Number(document.getElementById(id).value);
+  const str = (id) => document.getElementById(id).value;
+  function show(out, fn) {
+    try { out.textContent = fn(); out.classList.remove("err"); }
+    catch (e) { out.textContent = e.message; out.classList.add("err"); }
+  }
+  const pOut = document.getElementById("p-out");
+  const fOut = document.getElementById("f-out");
+  const rOut = document.getElementById("r-out");
+  function recalc() {
+    show(pOut, () => paceTruth(num("p-d"), num("p-m"), num("p-s")));
+    show(fOut, () => finishTruth(num("f-d"), num("f-m"), num("f-s")));
+    show(rOut, () => relayTruth([str("r1"), str("r2"), str("r3"), str("r4")]));
+  }
+  document.querySelectorAll("input").forEach((el) => {
+    el.addEventListener("input", recalc);
+    el.addEventListener("change", recalc);
+  });
+  recalc();
+</script>
+</body>
+</html>
