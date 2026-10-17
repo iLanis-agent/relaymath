@@ -1,0 +1,158 @@
+[
+  {
+    "fn": "paceTruth",
+    "args": [
+      10,
+      52,
+      30
+    ],
+    "expected": "10 km in 52:30 is 5:15 per km, 8:27 per mile."
+  },
+  {
+    "fn": "paceTruth",
+    "args": [
+      21.0975,
+      105,
+      0
+    ],
+    "expected": "21.0975 km in 1:45:00 is 4:59 per km, 8:01 per mile."
+  },
+  {
+    "fn": "paceTruth",
+    "args": [
+      5,
+      0,
+      59
+    ],
+    "expected": "5 km in 0:59 is 0:12 per km, 0:19 per mile."
+  },
+  {
+    "fn": "paceTruth",
+    "args": [
+      42.195,
+      240,
+      0
+    ],
+    "expected": "42.195 km in 4:00:00 is 5:41 per km, 9:09 per mile."
+  },
+  {
+    "fn": "paceTruth",
+    "args": [
+      0,
+      50,
+      0
+    ],
+    "expected": "ERR:distance must be more than 0 km"
+  },
+  {
+    "fn": "paceTruth",
+    "args": [
+      10,
+      0,
+      0
+    ],
+    "expected": "ERR:enter a finish time over 0"
+  },
+  {
+    "fn": "finishTruth",
+    "args": [
+      10,
+      5,
+      15
+    ],
+    "expected": "A 5:15 per km pace over 10 km finishes in 52:30."
+  },
+  {
+    "fn": "finishTruth",
+    "args": [
+      5,
+      4,
+      30
+    ],
+    "expected": "A 4:30 per km pace over 5 km finishes in 22:30."
+  },
+  {
+    "fn": "finishTruth",
+    "args": [
+      42.195,
+      5,
+      40
+    ],
+    "expected": "A 5:40 per km pace over 42.195 km finishes in 3:59:06."
+  },
+  {
+    "fn": "finishTruth",
+    "args": [
+      10,
+      0,
+      0
+    ],
+    "expected": "ERR:enter a pace over 0"
+  },
+  {
+    "fn": "relayTruth",
+    "args": [
+      [
+        "12:10",
+        "11:45",
+        "13:02",
+        "12:30"
+      ]
+    ],
+    "expected": "4 legs: 12:10 + 11:45 + 13:02 + 12:30 = 49:27 - slowest 13:02, fastest 11:45, a gap of 1:17."
+  },
+  {
+    "fn": "relayTruth",
+    "args": [
+      [
+        "10:00",
+        "10:00"
+      ]
+    ],
+    "expected": "2 legs: 10:00 + 10:00 = 20:00 - every leg the same."
+  },
+  {
+    "fn": "relayTruth",
+    "args": [
+      [
+        "59:59",
+        "1:01",
+        "20:00"
+      ]
+    ],
+    "expected": "3 legs: 59:59 + 1:01 + 20:00 = 1:21:00 - slowest 59:59, fastest 1:01, a gap of 58:58."
+  },
+  {
+    "fn": "relayTruth",
+    "args": [
+      [
+        "12:10"
+      ]
+    ],
+    "expected": "ERR:a relay needs at least 2 legs"
+  },
+  {
+    "fn": "relayTruth",
+    "args": [
+      [
+        "12:10",
+        "1210",
+        "13:02",
+        "12:30"
+      ]
+    ],
+    "expected": "ERR:leg 2 must look like 12:10"
+  },
+  {
+    "fn": "relayTruth",
+    "args": [
+      [
+        "12:10",
+        "0:00",
+        "13:02",
+        "12:30"
+      ]
+    ],
+    "expected": "ERR:leg 2 must be over 0:00"
+  }
+]
